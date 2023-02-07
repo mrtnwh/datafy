@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "584930411693",
+    "project_id": "datafy-9dd09",
+    "storage_bucket": "datafy-9dd09.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584930411693:android:35301b4e43b559c1fbf224",
+        "android_client_info": {
+          "package_name": "com.example.datafy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584930411693-ib7n9h33242tu927vdcp8iu7jpsn97fa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSffFcTecNJK0SllDuz12wG0y32X56oTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584930411693-ib7n9h33242tu927vdcp8iu7jpsn97fa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
