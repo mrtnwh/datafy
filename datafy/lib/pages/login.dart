@@ -19,27 +19,27 @@ class _LogInState extends State<LogIn> {
   Widget build(BuildContext context){
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
+      body: Form(
+        key: _formKey,
+        child: Stack(children: [Container(
             height: size.height * 1,
             color: Colors.black,
-          ),
-          Container(
-            height: size.height * 0.66,
+        ),
+            Container(
+            height: size.height * 0.77,
             width: size.width * 1,
             decoration: BoxDecoration(
               color: Colors.greenAccent[700],
               borderRadius: BorderRadius.vertical(
-                bottom: Radius.elliptical(500, 180),
+                bottom: Radius.elliptical(200, 90),
               ),
             ),
-          ),
-          Positioned(
-            top: 240,
+            ),
+            Positioned(
+            top: 220,
             left: 40,
             child: Container(
-              height: size.height * 0.55,
+              height: size.height * 0.6,
               width: size.width * 0.8,
               child: Card(
                 elevation: 5,
@@ -124,7 +124,6 @@ class _LogInState extends State<LogIn> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        var _formKey = GlobalKey<FormState>();
                               // Validate returns true if the form is valid, or false otherwise.
                               if (_formKey.currentState!.validate()) {
                                 // If the form is valid, display a snackbar. In the real world,
@@ -140,7 +139,7 @@ class _LogInState extends State<LogIn> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (_) =>
-                                                  const ScreenLogged()));
+                                                   ScreenLogged()));
                                     });
                               }
                             
@@ -273,10 +272,7 @@ class _LogInState extends State<LogIn> {
                 fontSize: 16,
               ),
             ),
+          ),],),
           ),
-        ],
-      ),
-      appBar: AppBar(title: Text('Spotify'),),
-      drawer: const DrawerMenu(),
-    );
+          );
   }}
