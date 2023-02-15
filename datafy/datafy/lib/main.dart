@@ -9,14 +9,11 @@ import 'package:datafy/shared/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preferences.init();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: const FirebaseOptions(apiKey: "AIzaSyBSffFcTecNJK0SllDuz12wG0y32X56oTk", appId: "9dd09", messagingSenderId: "584930411693", projectId: "datafy-9dd09")
 );
   runApp(MultiProvider(
     providers: [
