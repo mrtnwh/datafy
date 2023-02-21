@@ -24,7 +24,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
             title: const Text('Home'),
             leading: const Icon(Icons.search),
             onTap: () {
-              Navigator.pushReplacementNamed(context, 'home');
+              Navigator.pushReplacementNamed(context, 'home');            },
+          ),
+          const Divider(height: 5),
+          ListTile(
+            title: const Text('Screen Logged'),
+            leading: const Icon(Icons.search),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, 'home_logged');
             },
           ),
           const Divider(height: 5),
@@ -32,11 +39,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
             title: const Text('List Songs'),
             leading: const Icon(Icons.search),
             onTap: () {
-              Navigator.pushReplacementNamed(context, 'List Songs');
+              Navigator.pushReplacementNamed(context, 'list_songs');
             },
           ),
-
           const Divider(height: 5),
+
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -51,7 +58,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     });
                   })
             ],
-            
           )
         ],
       ),

@@ -1,9 +1,7 @@
 import 'package:datafy/auth/components/CustomTextField.dart';
-import 'package:datafy/widgets/drawer_menu.dart';
 import 'package:datafy/pages/home_logged.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
 
 class LogIn extends StatefulWidget{
   const LogIn({Key? key}) : super(key: key);

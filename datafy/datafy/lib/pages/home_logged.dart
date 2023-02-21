@@ -11,7 +11,7 @@ class ScreenLogged extends StatelessWidget{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(title: Text('ScreenLogged'),),
-      drawer: DrawerMenu(),
+      drawer: const DrawerMenu(),
       body: Column(children: [ElevatedButton(
   style: ElevatedButton.styleFrom(
     primary: Colors.red, // background
@@ -27,14 +27,6 @@ ElevatedButton(
   ),
   onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (_) =>ListSongs())); },
   child: Text('Quiero saber informacion sobre este artista ..'),
-),
-ElevatedButton(
-  style: ElevatedButton.styleFrom(
-    primary: Colors.red, // background
-    onPrimary: Colors.white, // foreground
-  ),
-  onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (_) =>ListSongs())); },
-  child: Text('Quiero saber informacion sobre este tema ..'),
 ),
 ]),
       

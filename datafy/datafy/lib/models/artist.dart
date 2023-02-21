@@ -6,6 +6,7 @@ import 'dart:convert';
 
 SearchArtist searchArtistFromJson(String str) => SearchArtist.fromJson(json.decode(str));
 
+String searchArtistToJson(SearchArtist data) => json.encode(data.toJson());
 
 class SearchArtist {
     SearchArtist({
@@ -18,6 +19,9 @@ class SearchArtist {
         artists: Artists.fromJson(json["artists"]),
     );
 
+    Map<String, dynamic> toJson() => {
+        "artists": artists.toJson(),
+    };
 }
 
 class Artists {
@@ -42,6 +46,7 @@ class Artists {
     factory Artists.fromJson(Map<String, dynamic> json) => Artists(
         href: json["href"],
         items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+        
         limit: json["limit"],
         next: json["next"],
         offset: json["offset"],
@@ -49,6 +54,15 @@ class Artists {
         total: json["total"],
     );
 
+    Map<String, dynamic> toJson() => {
+        "href": href,
+        "items": List<dynamic>.from(items.map((x) => x.toJson())),
+        "limit": limit,
+        "next": next,
+        "offset": offset,
+        "previous": previous,
+        "total": total,
+    };
 }
 
 class Item {
@@ -70,10 +84,10 @@ class Item {
     List<String> genres;
     String href;
     String id;
-    List<Image> images;
+    List<Images> images;
     String name;
     int popularity;
-    Type type;
+    String type;
     String uri;
 
     factory Item.fromJson(Map<String, dynamic> json) => Item(
@@ -82,13 +96,25 @@ class Item {
         genres: List<String>.from(json["genres"].map((x) => x)),
         href: json["href"],
         id: json["id"],
-        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+        images: List<Images>.from(json["images"].map((x) => Images.fromJson(x))),
         name: json["name"],
         popularity: json["popularity"],
-        type: typeValues.map[json["type"]]!,
+        type: json["type"],
         uri: json["uri"],
     );
 
+    Map<String, dynamic> toJson() => {
+        "external_urls": externalUrls.toJson(),
+        "followers": followers.toJson(),
+        "genres": List<dynamic>.from(genres.map((x) => x)),
+        "href": href,
+        "id": id,
+        "images": List<dynamic>.from(images.map((x) => x.toJson())),
+        "name": name,
+        "popularity": popularity,
+        "type": type,
+        "uri": uri,
+    };
 }
 
 class ExternalUrls {
@@ -102,6 +128,9 @@ class ExternalUrls {
         spotify: json["spotify"],
     );
 
+    Map<String, dynamic> toJson() => {
+        "spotify": spotify,
+    };
 }
 
 class Followers {
@@ -117,10 +146,15 @@ class Followers {
         href: json["href"],
         total: json["total"],
     );
+
+    Map<String, dynamic> toJson() => {
+        "href": href,
+        "total": total,
+    };
 }
 
-class Image {
-    Image({
+class Images {
+    Images({
         required this.height,
         required this.url,
         required this.width,
@@ -130,28 +164,15 @@ class Image {
     String url;
     int width;
 
-    factory Image.fromJson(Map<String, dynamic> json) => Image(
+    factory Images.fromJson(Map<String, dynamic> json) => Images(
         height: json["height"],
         url: json["url"],
         width: json["width"],
     );
 
-}
-
-enum Type { ARTIST }
-
-final typeValues = EnumValues({
-    "artist": Type.ARTIST
-});
-
-class EnumValues<T> {
-    Map<String, T> map;
-    late Map<T, String> reverseMap;
-
-    EnumValues(this.map);
-
-    Map<T, String> get reverse {
-        reverseMap = map.map((k, v) => MapEntry(v, k));
-        return reverseMap;
-    }
+    Map<String, dynamic> toJson() => {
+        "height": height,
+        "url": url,
+        "width": width,
+    };
 }
