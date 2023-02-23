@@ -24,7 +24,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
             title: const Text('Home'),
             leading: const Icon(Icons.search),
             onTap: () {
-              Navigator.pushReplacementNamed(context, 'home');            },
+              Navigator.pushReplacementNamed(context, 'home');},
           ),
           const Divider(height: 5),
           ListTile(

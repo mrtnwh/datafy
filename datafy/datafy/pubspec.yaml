@@ -38,9 +38,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.0.15
   provider: ^6.0.4
-  flutter_dotenv: ^5.0.2
   http: ^0.13.5
   firebase_core: ^2.4.1
+  length: ^0.3.0
+  dio: ^5.0.0
+  auto_size_text: ^3.0.0
   
 dev_dependencies:
   flutter_test:
@@ -73,7 +75,6 @@ flutter:
     - assets/images/green_background.png
     - assets/images/Spotify_Logo_RGB_White.png
     - assets/images/nirvana.jpeg
-    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

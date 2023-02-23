@@ -1,4 +1,4 @@
-import 'package:datafy/pages/list_songs.dart';
+import 'package:datafy/pages/list_artists.dart';
 import 'package:datafy/widgets/drawer_menu.dart';
 import 'package:flutter/material.dart';
 
