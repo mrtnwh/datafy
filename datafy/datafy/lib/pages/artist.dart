@@ -1,41 +1,36 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:datafy/pages/albums.dart';
 
-import '../models/artist.dart';
 import 'package:flutter/material.dart';
-import '../widgets/drawer_menu.dart';
+import '../models/artist.dart';
 import '../services/artists_service.dart';
+import '../widgets/drawer_menu.dart';
 
 class FutureBuilderPage extends StatelessWidget {
-  FutureBuilderPage({super.key});
+  FutureBuilderPage(this.nameArtist, {super.key});
+  String nameArtist;
+  
 
   @override
   Widget build(BuildContext context) {
+    print('asd $nameArtist');
     return Scaffold(
         drawer: const DrawerMenu(),
-        body: TextFuture());
+        body: TextFuture(nameArtist));
   }
 }
 
-class TextFuture extends StatefulWidget {
-  TextFuture({
-    Key? key,
-  }) : super(key: key);
+/*ThemeProvider({
+    required bool isDarkMode
+  }):temaActual = (isDarkMode) ? ThemeData.dark(): ThemeData.light(); 
+  */
 
-  @override
-  State<TextFuture> createState() => _TextFutureState();
-}
 
-class _TextFutureState extends State<TextFuture> {
-  //late Future<TracksReleased> futureTracks;
+class TextFuture extends StatelessWidget {
   late Future<SearchArtist> futureArtist;
+  TextFuture(this.nameArtist, {super.key}) : futureArtist = SearchArtists().fetchSearchArtist(nameArtist);
+  String nameArtist;
 
-  @override
-  void initState() {
-    super.initState();
-    futureArtist = SearchArtists().fetchSearchArtist();
-    //futureTracks = Tracks().fetchLastReleases();
-  }
 
   final Future<Map<String, String>> _calculation =
       Future<Map<String, String>>.delayed(
@@ -69,7 +64,6 @@ class _TextFutureState extends State<TextFuture> {
                     )
                   ],
                 ),
-
                 Row(
                   children: [
                     SizedBox(
@@ -85,7 +79,7 @@ class _TextFutureState extends State<TextFuture> {
                           TextSpan(text: '\n'),
                           TextSpan(
                               text:
-                                  'genres: ${snapshot.data?.artists.items[0].genres[0]}, ${snapshot.data?.artists.items[0].genres[1]}, ${snapshot.data?.artists.items[0].genres[2]}'),
+                                  'genres: ${snapshot.data?.artists.items[0].genres[0]}, ${snapshot.data?.artists.items[0].genres[1]?? ''}, ${snapshot.data?.artists.items[0].genres[2]?? ''}'),
                           TextSpan(text: '\n')
                         ]))
                   ],
@@ -205,8 +199,7 @@ class _TextFutureState extends State<TextFuture> {
                         width: 200,
                         child: IconButton(onPressed: (){
                           print('toque');
-                        }, icon:Image.network('${snapshot.data?.artists.items[4].images[0].url}',
-                          
+                        }, icon:Image.network('${snapshot.data?.artists.items[4].images[0].url}',  
                           alignment: Alignment.topLeft,
                         ),iconSize: 100,)
                       )
