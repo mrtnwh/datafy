@@ -4,41 +4,20 @@ import 'package:flutter/material.dart';
 import 'artist.dart';
 
 
-class ListSongs extends StatelessWidget {
-  const ListSongs({Key? key}) : super(key: key);
+class ListArtists extends StatefulWidget {
+  ListArtists({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: GFG(),
-    );
-  }
+ _ListArtistState createState() => _ListArtistState();
 }
 
-// This is the widget that will be shown
-// as the homepage of your application.
-class GFG extends StatefulWidget {
-  const GFG({Key? key}) : super(key: key);
+class _ListArtistState extends State<ListArtists> {
+    final _formKey = GlobalKey<FormState>();
 
-  @override
-  State<GFG> createState() => _GFGState();
-}
-
-class Todo {
-  final String title;
-  final String description;
-
-  Todo(this.title, this.description);
-}
-
-class _GFGState extends State<GFG> {
-  @override
-  Widget build(BuildContext context) {
-     final List<Map<String,dynamic>> arrNames = [
+    
+      @override
+      Widget build(BuildContext context) {
+          final List<Map<String,dynamic>> arrNames = [
     {'url':'https://i.scdn.co/image/84282c28d851a700132356381fcfbadc67ff498b', 'name': 'Nirvana'},
     {'url':'https://i.scdn.co/image/ab6761610000e5eb69ca98dd3083f1082d740e44','name':'Metallica'},
     {'url':'https://i.scdn.co/image/ab6761610000e5ebcdce7620dc940db079bf4952','name':'Ariana Grande'},
@@ -69,13 +48,11 @@ class _GFGState extends State<GFG> {
     {'url':'https://i.scdn.co/image/ab6761610000e5eb1ca139a174e216880498dc16','name':'MF DOOM'},
     {'url':'https://i.scdn.co/image/ab6761610000e5eb504ff11d788162fbf8078654','name':'Playboi Carti'},
     ].toList();
-
-    return Scaffold(
-      drawer: DrawerMenu(),
+        return Scaffold(
+            drawer: const DrawerMenu(),
       appBar: AppBar(
-        backgroundColor: Colors.green,
         title: const Text(
-          "Spotify",
+          "DATAFY",
         ),
         actions: [
           IconButton(
@@ -86,13 +63,13 @@ class _GFGState extends State<GFG> {
           )
         ],
       ),
-      body:ListView.separated(
+         body: ListView.separated(
         itemBuilder: (context, index) {
           return ListTile(
             leading: //CircleAvatar(backgroundImage: AssetImage("assets/images/${arrNames[index]}.jpeg"),),
             CircleAvatar(backgroundImage: NetworkImage('${arrNames[index]['url']}')),
             title: Text(arrNames[index]['name']),
-            trailing: Icon(Icons.arrow_circle_right_rounded),
+            trailing: const Icon(Icons.arrow_circle_right_rounded),
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (_) => FutureBuilderPage(arrNames[index]['name'])));
             },
@@ -100,17 +77,16 @@ class _GFGState extends State<GFG> {
         },
         itemCount: arrNames.length,
         separatorBuilder: (BuildContext context, int index) {
-          return Divider(height: 10, thickness: 1);
+          return const Divider(height: 10, thickness: 1);
         },
       ),
-    );
-
-  }
-    
-  }
+        );
+      }
 
 
+}
 
+  
 class CustomSearchDelegate extends SearchDelegate {
   List<String> searchTerms = [
     "Nirvana",
@@ -151,7 +127,7 @@ class CustomSearchDelegate extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
       ),
     ];
   }
@@ -162,7 +138,7 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
     );
   }
 

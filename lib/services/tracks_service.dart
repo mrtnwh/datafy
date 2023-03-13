@@ -6,13 +6,12 @@ import '../constants/constants.dart';
 
 
 class Tracks{
-  final id = '6olE6TJLqED3rqDCT0FyPh';
   Map<String, String> queryParameters = {
      'market': 'ES',
      'limit': '5',
     };
 
-    Future<TracksReleased> fetchLastReleases() async {
+    Future<TracksReleased> fetchLastReleases(String id) async {
       var url = 'api.spotify.com';
       var unencodedPath = 'v1/artists/${id}/albums';
       var response = await http.get(Uri.https(url,unencodedPath,queryParameters), headers: {

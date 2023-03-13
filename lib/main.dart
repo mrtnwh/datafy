@@ -1,3 +1,4 @@
+import 'package:datafy/pages/album.dart';
 import 'package:flutter/material.dart';
 import 'package:datafy/pages/pages.dart';
 import 'package:datafy/providers/providers.dart';
@@ -39,8 +40,8 @@ class MyApp extends StatelessWidget {
       routes: {
         'home': (context) => const LogIn(),
         'home_logged':(context)=> const ScreenLogged(),
-        'list_songs': (context) => const ListSongs(),
-      },
+        'list_songs': (context) => ListArtists(),      
+        },
     );
   }
 }

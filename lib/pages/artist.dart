@@ -9,28 +9,19 @@ import '../widgets/drawer_menu.dart';
 class FutureBuilderPage extends StatelessWidget {
   FutureBuilderPage(this.nameArtist, {super.key});
   String nameArtist;
-  
 
   @override
   Widget build(BuildContext context) {
     print('asd $nameArtist');
-    return Scaffold(
-        drawer: const DrawerMenu(),
-        body: TextFuture(nameArtist));
+    return Scaffold(drawer: const DrawerMenu(), body: TextFuture(nameArtist));
   }
 }
 
-/*ThemeProvider({
-    required bool isDarkMode
-  }):temaActual = (isDarkMode) ? ThemeData.dark(): ThemeData.light(); 
-  */
-
-
 class TextFuture extends StatelessWidget {
   late Future<SearchArtist> futureArtist;
-  TextFuture(this.nameArtist, {super.key}) : futureArtist = SearchArtists().fetchSearchArtist(nameArtist);
+  TextFuture(this.nameArtist, {super.key})
+      : futureArtist = SearchArtists().fetchSearchArtist(nameArtist);
   String nameArtist;
-
 
   final Future<Map<String, String>> _calculation =
       Future<Map<String, String>>.delayed(
@@ -50,6 +41,16 @@ class TextFuture extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<SearchArtist> snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
+            var idToPass = '${snapshot.data?.artists.items[0].id}';
+            var imageToPass =
+                '${snapshot.data?.artists.items[0].images[0].url}';
+            int array = '${snapshot.data?.artists.items[0].genres}'.length;
+            var max = '$array'.length;
+            // for (int i = 0; i <= max; i++) {
+            //   var arrayStr = '${snapshot.data?.artists.items[0].genres[i]}';
+            //   print('${arrayStr}');
+            // }
+
             children = <Widget>[
               Column(children: [
                 Row(
@@ -57,7 +58,8 @@ class TextFuture extends StatelessWidget {
                     Container(
                       height: size.height * 0.24,
                       width: size.width * 1,
-                      child: Image.asset('assets/images/nirvana.jpeg',
+                      child: Image.network(
+                          '${snapshot.data?.artists.items[0].images[0].url}',
                           fit: BoxFit.fitWidth,
                           color: Colors.grey.withOpacity(0.87),
                           colorBlendMode: BlendMode.modulate),
@@ -79,7 +81,7 @@ class TextFuture extends StatelessWidget {
                           TextSpan(text: '\n'),
                           TextSpan(
                               text:
-                                  'genres: ${snapshot.data?.artists.items[0].genres[0]}, ${snapshot.data?.artists.items[0].genres[1]?? ''}, ${snapshot.data?.artists.items[0].genres[2]?? ''}'),
+                                  'genres: ${snapshot.data?.artists.items[0].genres.length}'),
                           TextSpan(text: '\n')
                         ]))
                   ],
@@ -89,6 +91,9 @@ class TextFuture extends StatelessWidget {
                   children: [
                     Row(
                       children: [
+                        SizedBox(
+                          width: 10,
+                        ),
                         Text(
                             'Similar Artists                                                                                     ')
                       ],
@@ -107,12 +112,16 @@ class TextFuture extends StatelessWidget {
                       Container(
                         height: 180,
                         width: 200,
-                        child: IconButton(onPressed: (){
-                          print('toque');
-                        }, icon:Image.network('${snapshot.data?.artists.items[2].images[0].url}',
-                          
-                          alignment: Alignment.topLeft,
-                        ),iconSize: 100,),
+                        child: IconButton(
+                          onPressed: () {
+                            print('toque');
+                          },
+                          icon: Image.network(
+                            '${snapshot.data?.artists.items[2].images[0].url}',
+                            alignment: Alignment.topLeft,
+                          ),
+                          iconSize: 100,
+                        ),
                       )
                     ],
                   ),
@@ -152,12 +161,15 @@ class TextFuture extends StatelessWidget {
                       Container(
                         height: 180,
                         width: 200,
-                        child: IconButton(onPressed: (){
-                          print('toque');
-                        }, icon:Image.network('${snapshot.data?.artists.items[3].images[0].url}',
-                          
-                          alignment: Alignment.topLeft,
-                        ),iconSize: 100),
+                        child: IconButton(
+                            onPressed: () {
+                              print('array: $array');
+                            },
+                            icon: Image.network(
+                              '${snapshot.data?.artists.items[3].images[0].url}',
+                              alignment: Alignment.topLeft,
+                            ),
+                            iconSize: 100),
                       )
                     ],
                   ),
@@ -195,14 +207,18 @@ class TextFuture extends StatelessWidget {
                         width: 210,
                       ),
                       Container(
-                        height: 180,
-                        width: 200,
-                        child: IconButton(onPressed: (){
-                          print('toque');
-                        }, icon:Image.network('${snapshot.data?.artists.items[4].images[0].url}',  
-                          alignment: Alignment.topLeft,
-                        ),iconSize: 100,)
-                      )
+                          height: 180,
+                          width: 200,
+                          child: IconButton(
+                            onPressed: () {
+                              print('toque');
+                            },
+                            icon: Image.network(
+                              '${snapshot.data?.artists.items[4].images[0].url}',
+                              alignment: Alignment.topLeft,
+                            ),
+                            iconSize: 100,
+                          ))
                     ],
                   ),
                   Column(
@@ -232,8 +248,11 @@ class TextFuture extends StatelessWidget {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ScreenAlbums()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ScreenAlbums(idToPass, imageToPass)));
                   },
                   child: Text(
                     'Tap this button to see the last 5 albums from ${snapshot.data?.artists.items[0].name}',
@@ -247,7 +266,9 @@ class TextFuture extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10,)
+              SizedBox(
+                height: 10,
+              )
             ];
           } else if (snapshot.hasError) {
             children = <Widget>[

@@ -17,7 +17,7 @@ class ScreenLogged extends StatelessWidget{
     primary: Colors.red, // background
     onPrimary: Colors.white, // foreground
   ),
-  onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (_) =>ListSongs())); },
+  onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (_) =>ListArtists())); },
   child: Text('Quiero saber las ultimas 5 canciones de ..'),
 ),
 ElevatedButton(
@@ -25,7 +25,7 @@ ElevatedButton(
     primary: Colors.red, // background
     onPrimary: Colors.white, // foreground
   ),
-  onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (_) =>ListSongs())); },
+  onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (_) =>ListArtists())); },
   child: Text('Quiero saber informacion sobre este artista ..'),
 ),
 ]),

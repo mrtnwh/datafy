@@ -6,23 +6,24 @@
     "configurations": [
         {
             "name": "datafy",
-            "cwd": "datafy\\datafy",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "..//datafy/lib/main.dart",
         },
         {
             "name": "datafy (profile mode)",
-            "cwd": "datafy\\datafy",
+            "cwd": "datafy",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
             "name": "datafy (release mode)",
-            "cwd": "datafy\\datafy",
+            "cwd": "datafy",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
-        }
+        },
+        
     ]
 }

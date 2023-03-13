@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:datafy/pages/album.dart';
 import 'package:flutter/material.dart';
 import '../models/tracks.dart';
 import '../services/tracks_service.dart';
@@ -6,33 +7,33 @@ import '../widgets/drawer_menu.dart';
 
 
 class ScreenAlbums extends StatelessWidget {
-  ScreenAlbums({super.key});
+  ScreenAlbums(this.id, this.imageToPass,{super.key});
+  String id;
+  String imageToPass;
+  String? idAlbum;
+  String? imageAlbum;
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: const DrawerMenu(),
-        body: TextFuture());
+        body: TextFuture(id, imageToPass, idAlbum, imageAlbum));
   }
 }
 
-class TextFuture extends StatefulWidget {
-  TextFuture({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<TextFuture> createState() => _TextFutureState();
-}
-
-class _TextFutureState extends State<TextFuture> {
+class TextFuture extends StatelessWidget {
   late Future<TracksReleased> futureTracks;
+  TextFuture(this.id, this.imageToPass, this.idAlbum, this.imageAlbum, {super.key}) : futureTracks = Tracks().fetchLastReleases(id);
+  String id;
+  String imageToPass;
+  String? idAlbum;
+  String? imageAlbum;
 
-  @override
-  void initState() {
-    super.initState();
-    futureTracks = Tracks().fetchLastReleases();
-  }
+  
+
+  
+
 
   final Future<Map<String, String>> _calculation =
       Future<Map<String, String>>.delayed(
@@ -50,7 +51,10 @@ Widget build(BuildContext context) {
       child: FutureBuilder<TracksReleased>(
         future: futureTracks, // a previously-obtained Future<String> or null
         builder: (BuildContext context, AsyncSnapshot<TracksReleased> snapshot) {
-          print('${snapshot.data?.items[1].name}');
+          var idAlbum = '${snapshot.data?.items[0].id}';
+          var imageAlbum = '${snapshot.data?.items[0].images[0].url}';
+          print('id album 1 ${idAlbum}');
+          print('image album 1 ${imageAlbum}');
           List<Widget> children;
           if (snapshot.hasData) {
             children = <Widget>[
@@ -59,7 +63,7 @@ Widget build(BuildContext context) {
           Row(children: [
             Container(height:size.height*0.24, width: size.width*1,
           child: 
-          Image.asset('assets/images/nirvana.jpeg', fit: BoxFit.fitWidth, color: Colors.grey.withOpacity(0.87),colorBlendMode: BlendMode.modulate),
+          Image.network('${imageToPass}', fit: BoxFit.fitWidth, color: Colors.grey.withOpacity(0.87),colorBlendMode: BlendMode.modulate),
           )],
           ),
           SizedBox(height: 20,),
@@ -72,7 +76,11 @@ Widget build(BuildContext context) {
               Column(children: [
               SizedBox(width: 190,),
               Container(height: 150, width: 180, child: 
-              IconButton(onPressed: (){print('album 1');}, icon: Image.network('${snapshot.data?.items[0].images[0].url}',alignment: Alignment.topLeft, )),
+              IconButton(onPressed: (){         Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AlbumSongs(idAlbum, imageAlbum,)));}, icon: Image.network('${snapshot.data?.items[0].images[0].url}',alignment: Alignment.topLeft, )),
              )
              ],
              ),

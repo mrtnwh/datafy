@@ -6,9 +6,6 @@ import '../constants/constants.dart';
 
 
 class SearchArtists{
-  final id = '6olE6TJLqED3rqDCT0FyPh';
-
-
     Future<SearchArtist> fetchSearchArtist(String nameArtist) async {
       var url = 'api.spotify.com';
       var unencodedPath = 'v1/search';
@@ -21,7 +18,7 @@ class SearchArtists{
         'Authorization':'Bearer ${TOKEN}'
       });
       if(response.statusCode == 200){
-        print(response.body);
+        print('el grupo $nameArtist tiene ${SearchArtist.fromJson(json.decode(response.body)).artists.items[0].genres.length} generos');
         return SearchArtist.fromJson(json.decode(response.body));
       }else{
           print('status code:  ${response.statusCode}');
