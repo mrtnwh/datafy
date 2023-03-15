@@ -6,7 +6,6 @@ import 'dart:convert';
 
 TracksAlbum tracksAlbumFromJson(String str) => TracksAlbum.fromJson(json.decode(str));
 
-
 class TracksAlbum {
     TracksAlbum({
         required this.href,
@@ -36,82 +35,72 @@ class TracksAlbum {
         total: json["total"],
     );
 
+ 
 }
 
 class Item {
     Item({
         required this.artists,
+        required this.discNumber,
+        required this.durationMs,
+        required this.explicit,
         required this.externalUrls,
         required this.href,
         required this.id,
-        required this.images,
+        required this.isLocal,
+        required this.isPlayable,
         required this.name,
-        required this.releaseDate,
-        required this.releaseDatePrecision,
-        required this.totalTracks,
-        required this.type,
+        required this.previewUrl,
+        required this.trackNumber,
         required this.uri,
     });
 
     List<Artist> artists;
+    int discNumber;
+    int durationMs;
+    bool explicit;
     ExternalUrls externalUrls;
     String href;
     String id;
-    List<Images> images;
+    bool isLocal;
+    bool isPlayable;
     String name;
-    DateTime releaseDate;
-    ReleaseDatePrecision releaseDatePrecision;
-    int totalTracks;
-    AlbumGroup type;
+    String previewUrl;
+    int trackNumber;
     String uri;
 
     factory Item.fromJson(Map<String, dynamic> json) => Item(
         artists: List<Artist>.from(json["artists"].map((x) => Artist.fromJson(x))),
+        discNumber: json["disc_number"],
+        durationMs: json["duration_ms"],
+        explicit: json["explicit"],
         externalUrls: ExternalUrls.fromJson(json["external_urls"]),
         href: json["href"],
         id: json["id"],
-        images: List<Images>.from(json["images"].map((x) => Images.fromJson(x))),
+        isLocal: json["is_local"],
+        isPlayable: json["is_playable"],
         name: json["name"],
-        releaseDate: DateTime.parse(json["release_date"]),
-        releaseDatePrecision: releaseDatePrecisionValues.map[json["release_date_precision"]]!,
-        totalTracks: json["total_tracks"],
-        type: albumGroupValues.map[json["type"]]!,
+        previewUrl: json["preview_url"],
+        trackNumber: json["track_number"],
         uri: json["uri"],
     );
+
 }
-
-enum AlbumGroup { ALBUM, SINGLE }
-
-final albumGroupValues = EnumValues({
-    "album": AlbumGroup.ALBUM,
-    "single": AlbumGroup.SINGLE
-});
 
 class Artist {
     Artist({
         required this.externalUrls,
         required this.href,
-        required this.id,
-        required this.name,
-        required this.type,
-        required this.uri,
     });
 
     ExternalUrls externalUrls;
     String href;
-    String id;
-    String name;
-    String type;
-    String uri;
 
     factory Artist.fromJson(Map<String, dynamic> json) => Artist(
         externalUrls: ExternalUrls.fromJson(json["external_urls"]),
         href: json["href"],
-        id: json["id"]!,
-        name: json["name"]!,
-        type: json["type"]!,
-        uri: json["uri"]!,
     );
+
 
 }
 
@@ -129,56 +118,4 @@ class ExternalUrls {
     Map<String, dynamic> toJson() => {
         "spotify": spotify,
     };
-}
-
-enum Id { THE_6_OL_E6_TJ_LQ_ED3_RQ_DCT0_FY_PH }
-
-
-enum Type { ARTIST }
-
-final typeValues = EnumValues({
-    "artist": Type.ARTIST
-});
-
-
-class Images {
-    Images({
-        required this.height,
-        required this.url,
-        required this.width,
-    });
-
-    int height;
-    String url;
-    int width;
-
-    factory Images.fromJson(Map<String, dynamic> json) => Images(
-        height: json["height"],
-        url: json["url"],
-        width: json["width"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "height": height,
-        "url": url,
-        "width": width,
-    };
-}
-
-enum ReleaseDatePrecision { DAY }
-
-final releaseDatePrecisionValues = EnumValues({
-    "day": ReleaseDatePrecision.DAY
-});
-
-class EnumValues<T> {
-    Map<String, T> map;
-    late Map<T, String> reverseMap;
-
-    EnumValues(this.map);
-
-    Map<T, String> get reverse {
-        reverseMap = map.map((k, v) => MapEntry(v, k));
-        return reverseMap;
-    }
 }

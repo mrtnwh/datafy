@@ -6,10 +6,9 @@ import '../constants/constants.dart';
 
 
 class AlbumTracks{
-      Future<TracksAlbum> fetchAlbumTracks() async {
-      var id = '5eA0qtE7Yu29XiMlwoby2G';
+      Future<TracksAlbum> fetchAlbumTracks(idAlbum) async {
       var url = 'api.spotify.com';
-      var unencodedPath = 'v1/albums/${id}/tracks';
+      var unencodedPath = 'v1/albums/${idAlbum}/tracks';
       var response = await http.get(Uri.https(url,unencodedPath,{
      'market': 'ES',
      'limit':'13'

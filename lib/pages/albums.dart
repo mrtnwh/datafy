@@ -12,23 +12,25 @@ class ScreenAlbums extends StatelessWidget {
   String imageToPass;
   String? idAlbum;
   String? imageAlbum;
+  String? nameAlbum;
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: const DrawerMenu(),
-        body: TextFuture(id, imageToPass, idAlbum, imageAlbum));
+        body: TextFuture(id, imageToPass, idAlbum, imageAlbum, nameAlbum));
   }
 }
 
 class TextFuture extends StatelessWidget {
   late Future<TracksReleased> futureTracks;
-  TextFuture(this.id, this.imageToPass, this.idAlbum, this.imageAlbum, {super.key}) : futureTracks = Tracks().fetchLastReleases(id);
+  TextFuture(this.id, this.imageToPass, this.idAlbum,this.imageAlbum, this.nameAlbum,  {super.key}) : futureTracks = Tracks().fetchLastReleases(id);
   String id;
   String imageToPass;
   String? idAlbum;
   String? imageAlbum;
+  String? nameAlbum;
 
   
 
@@ -51,12 +53,12 @@ Widget build(BuildContext context) {
       child: FutureBuilder<TracksReleased>(
         future: futureTracks, // a previously-obtained Future<String> or null
         builder: (BuildContext context, AsyncSnapshot<TracksReleased> snapshot) {
-          var idAlbum = '${snapshot.data?.items[0].id}';
-          var imageAlbum = '${snapshot.data?.items[0].images[0].url}';
-          print('id album 1 ${idAlbum}');
-          print('image album 1 ${imageAlbum}');
           List<Widget> children;
           if (snapshot.hasData) {
+          var idAlbum = '${snapshot.data?.items[0].id}';
+          var imageAlbum = '${snapshot.data?.items[0].images[0].url}';
+          var nameAlbum = '${snapshot.data?.items[0].name}';
+
             children = <Widget>[
         Column(
         children: [
@@ -80,7 +82,7 @@ Widget build(BuildContext context) {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                AlbumSongs(idAlbum, imageAlbum,)));}, icon: Image.network('${snapshot.data?.items[0].images[0].url}',alignment: Alignment.topLeft, )),
+                                AlbumSongs(idAlbum, imageAlbum, nameAlbum)));}, icon: Image.network('${snapshot.data?.items[0].images[0].url}',alignment: Alignment.topLeft, )),
              )
              ],
              ),

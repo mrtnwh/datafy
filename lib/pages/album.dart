@@ -5,22 +5,21 @@ import '../models/album_tracks.dart';
 import '../services/album_service.dart';
 
 class AlbumSongs extends StatelessWidget{
-  AlbumSongs(this.idAlbum, this.imageAlbum, {super.key});
-    String idAlbum,imageAlbum;
+  AlbumSongs(this.idAlbum,this.imageAlbum, this.nameAlbum, {super.key});
+    String idAlbum, imageAlbum, nameAlbum;
   @override
   Widget build(BuildContext context){
     return Scaffold(
       drawer: const DrawerMenu(),
-      body: TextFuture(idAlbum, imageAlbum),
+      body: TextFuture(idAlbum, imageAlbum, nameAlbum),
     );
   }
 }
 
 class TextFuture extends StatelessWidget{
   late Future<TracksAlbum> futureTracksAlbum;
-  TextFuture(this.idAlbum, this.imageAlbum, {super.key}) : futureTracksAlbum = AlbumTracks().fetchAlbumTracks();
-  String idAlbum;
-  String imageAlbum;
+  TextFuture(this.idAlbum, this.imageAlbum, this.nameAlbum,{super.key}) : futureTracksAlbum = AlbumTracks().fetchAlbumTracks(idAlbum);
+  String idAlbum, imageAlbum, nameAlbum;
   
   final Future<Map<String, String>> _calculation =
       Future<Map<String, String>>.delayed(
@@ -49,10 +48,10 @@ Widget build(BuildContext context) {
           )],
           ),
           SizedBox(height: 20,),
-
+          Text('${nameAlbum}',style: TextStyle(),),
+          ListTile()
              ] )
             ];
-
   }
   else if (snapshot.hasError) {
             children = <Widget>[
@@ -79,7 +78,7 @@ Widget build(BuildContext context) {
               ),
             ];
           }
-  return Scaffold(appBar: AppBar(title: Text('${snapshot.data?.items[0].name}',style:(TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25))),),
+  return Scaffold(appBar: AppBar(title: Text('${nameAlbum}',style:(TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25))),),
             body:
           SingleChildScrollView(
             child: Column(

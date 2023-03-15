@@ -46,7 +46,6 @@ class Artists {
     factory Artists.fromJson(Map<String, dynamic> json) => Artists(
         href: json["href"],
         items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
-        
         limit: json["limit"],
         next: json["next"],
         offset: json["offset"],
