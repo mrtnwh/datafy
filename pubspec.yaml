@@ -40,7 +40,6 @@ dependencies:
   provider: ^6.0.4
   http: ^0.13.5
   firebase_core: ^2.4.1
-  length: ^0.3.0
   dio: ^5.0.0
   auto_size_text: ^3.0.0
   

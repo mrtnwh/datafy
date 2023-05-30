@@ -11,7 +11,6 @@ class TracksAlbum {
         required this.href,
         required this.items,
         required this.limit,
-        required this.next,
         required this.offset,
         this.previous,
         required this.total,
@@ -20,7 +19,6 @@ class TracksAlbum {
     String href;
     List<Item> items;
     int limit;
-    String next;
     int offset;
     dynamic previous;
     int total;
@@ -29,7 +27,6 @@ class TracksAlbum {
         href: json["href"],
         items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
         limit: json["limit"],
-        next: json["next"],
         offset: json["offset"],
         previous: json["previous"],
         total: json["total"],
@@ -50,7 +47,6 @@ class Item {
         required this.isLocal,
         required this.isPlayable,
         required this.name,
-        required this.previewUrl,
         required this.trackNumber,
         required this.uri,
     });
@@ -65,7 +61,6 @@ class Item {
     bool isLocal;
     bool isPlayable;
     String name;
-    String previewUrl;
     int trackNumber;
     String uri;
 
@@ -80,7 +75,6 @@ class Item {
         isLocal: json["is_local"],
         isPlayable: json["is_playable"],
         name: json["name"],
-        previewUrl: json["preview_url"],
         trackNumber: json["track_number"],
         uri: json["uri"],
     );
@@ -89,19 +83,19 @@ class Item {
 
 class Artist {
     Artist({
+      required this.name,
         required this.externalUrls,
         required this.href,
     });
 
     ExternalUrls externalUrls;
-    String href;
+    String href, name;
 
     factory Artist.fromJson(Map<String, dynamic> json) => Artist(
         externalUrls: ExternalUrls.fromJson(json["external_urls"]),
         href: json["href"],
+        name: json["name"]
     );
-
-
 }
 
 class ExternalUrls {
@@ -114,8 +108,4 @@ class ExternalUrls {
     factory ExternalUrls.fromJson(Map<String, dynamic> json) => ExternalUrls(
         spotify: json["spotify"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "spotify": spotify,
-    };
 }

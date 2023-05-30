@@ -24,14 +24,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
             title: const Text('Home'),
             leading: const Icon(Icons.search),
             onTap: () {
-              Navigator.pushReplacementNamed(context, 'home');},
-          ),
-          const Divider(height: 5),
-          ListTile(
-            title: const Text('Screen Logged'),
-            leading: const Icon(Icons.search),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, 'home_logged');
+              Navigator.pushReplacementNamed(context, 'home');
             },
           ),
           const Divider(height: 5),
@@ -43,7 +36,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
             },
           ),
           const Divider(height: 5),
-
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -83,8 +75,9 @@ class _DrawerHeader extends StatelessWidget {
         child: const Text(
           'DATAFY',
           style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,),
+            color: Colors.white,
+            fontSize: 30,
+          ),
           textAlign: TextAlign.center,
         ),
       ),

@@ -6,8 +6,6 @@ import 'dart:convert';
 
 TracksReleased tracksFromJson(String str) => TracksReleased.fromJson(json.decode(str));
 
-String tracksToJson(TracksReleased data) => json.encode(data.toJson());
-
 class TracksReleased {
     TracksReleased({
         required this.href,
@@ -36,16 +34,6 @@ class TracksReleased {
         previous: json["previous"],
         total: json["total"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "href": href,
-        "items": List<dynamic>.from(items.map((x) => x.toJson())),
-        "limit": limit,
-        "next": next,
-        "offset": offset,
-        "previous": previous,
-        "total": total,
-    };
 }
 
 class Item {
@@ -94,22 +82,6 @@ class Item {
         type: json["type"],
         uri: json["uri"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "album_group": albumGroup,
-        "album_type": albumType,
-        "artists": List<dynamic>.from(artists.map((x) => x.toJson())),
-        "external_urls": externalUrls.toJson(),
-        "href": href,
-        "id": id,
-        "images": List<dynamic>.from(images.map((x) => x.toJson())),
-        "name": name,
-        "release_date": "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
-        "release_date_precision": releaseDatePrecision,
-        "total_tracks": totalTracks,
-        "type": type,
-        "uri": uri,
-    };
 }
 
 class Artist {
@@ -137,15 +109,6 @@ class Artist {
         type: json["type"],
         uri: json["uri"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "external_urls": externalUrls.toJson(),
-        "href": href,
-        "id": id,
-        "name": name,
-        "type": type,
-        "uri": uri,
-    };
 }
 
 class ExternalUrls {
@@ -158,10 +121,6 @@ class ExternalUrls {
     factory ExternalUrls.fromJson(Map<String, dynamic> json) => ExternalUrls(
         spotify: json["spotify"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "spotify": spotify,
-    };
 }
 
 class Images {
@@ -180,10 +139,4 @@ class Images {
         url: json["url"],
         width: json["width"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "height": height,
-        "url": url,
-        "width": width,
-    };
 }

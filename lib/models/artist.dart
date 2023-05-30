@@ -1,49 +1,32 @@
 // To parse this JSON data, do
 //
-//     final searchArtist = searchArtistFromJson(jsonString);
+//     final artist = artistFromJson(jsonString);
 
 import 'dart:convert';
 
-SearchArtist searchArtistFromJson(String str) => SearchArtist.fromJson(json.decode(str));
+Artist artistFromJson(String str) => Artist.fromJson(json.decode(str));
 
-String searchArtistToJson(SearchArtist data) => json.encode(data.toJson());
 
-class SearchArtist {
-    SearchArtist({
-        required this.artists,
-    });
+class Artist {
+    String href;
+    List<Item> items;
+    int limit;
+    dynamic next;
+    int offset;
+    dynamic previous;
+    int total;
 
-    Artists artists;
-
-    factory SearchArtist.fromJson(Map<String, dynamic> json) => SearchArtist(
-        artists: Artists.fromJson(json["artists"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "artists": artists.toJson(),
-    };
-}
-
-class Artists {
-    Artists({
+    Artist({
         required this.href,
         required this.items,
         required this.limit,
-        required this.next,
+        this.next,
         required this.offset,
         this.previous,
         required this.total,
     });
 
-    String href;
-    List<Item> items;
-    int limit;
-    String next;
-    int offset;
-    dynamic previous;
-    int total;
-
-    factory Artists.fromJson(Map<String, dynamic> json) => Artists(
+    factory Artist.fromJson(Map<String, dynamic> json) => Artist(
         href: json["href"],
         items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
         limit: json["limit"],
@@ -52,126 +35,132 @@ class Artists {
         previous: json["previous"],
         total: json["total"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "href": href,
-        "items": List<dynamic>.from(items.map((x) => x.toJson())),
-        "limit": limit,
-        "next": next,
-        "offset": offset,
-        "previous": previous,
-        "total": total,
-    };
 }
 
 class Item {
+    List<ArtistElement> artists;
+    int discNumber;
+    int durationMs;
+    bool explicit;
+    ExternalUrls externalUrls;
+    String href;
+    String id;
+    bool isLocal;
+    bool isPlayable;
+    ArtistElement? linkedFrom;
+    String name;
+    String? previewUrl;
+    int trackNumber;
+    Type type;
+    String uri;
+    Restrictions? restrictions;
+
     Item({
+        required this.artists,
+        required this.discNumber,
+        required this.durationMs,
+        required this.explicit,
         required this.externalUrls,
-        required this.followers,
-        required this.genres,
         required this.href,
         required this.id,
-        required this.images,
+        required this.isLocal,
+        required this.isPlayable,
+        this.linkedFrom,
         required this.name,
-        required this.popularity,
+        this.previewUrl,
+        required this.trackNumber,
+        required this.type,
+        required this.uri,
+        this.restrictions,
+    });
+
+    factory Item.fromJson(Map<String, dynamic> json) => Item(
+        artists: List<ArtistElement>.from(json["artists"].map((x) => ArtistElement.fromJson(x))),
+        discNumber: json["disc_number"],
+        durationMs: json["duration_ms"],
+        explicit: json["explicit"],
+        externalUrls: ExternalUrls.fromJson(json["external_urls"]),
+        href: json["href"],
+        id: json["id"],
+        isLocal: json["is_local"],
+        isPlayable: json["is_playable"],
+        linkedFrom: json["linked_from"] == null ? null : ArtistElement.fromJson(json["linked_from"]),
+        name: json["name"],
+        previewUrl: json["preview_url"],
+        trackNumber: json["track_number"],
+        type: typeValues.map[json["type"]]!,
+        uri: json["uri"],
+        restrictions: json["restrictions"] == null ? null : Restrictions.fromJson(json["restrictions"]),
+    );
+}
+
+class ArtistElement {
+    ExternalUrls externalUrls;
+    String href;
+    String id;
+    String? name;
+    Type type;
+    String uri;
+
+    ArtistElement({
+        required this.externalUrls,
+        required this.href,
+        required this.id,
+        this.name,
         required this.type,
         required this.uri,
     });
 
-    ExternalUrls externalUrls;
-    Followers followers;
-    List<String> genres;
-    String href;
-    String id;
-    List<Images> images;
-    String name;
-    int popularity;
-    String type;
-    String uri;
-
-    factory Item.fromJson(Map<String, dynamic> json) => Item(
+    factory ArtistElement.fromJson(Map<String, dynamic> json) => ArtistElement(
         externalUrls: ExternalUrls.fromJson(json["external_urls"]),
-        followers: Followers.fromJson(json["followers"]),
-        genres: List<String>.from(json["genres"].map((x) => x)),
         href: json["href"],
         id: json["id"],
-        images: List<Images>.from(json["images"].map((x) => Images.fromJson(x))),
         name: json["name"],
-        popularity: json["popularity"],
-        type: json["type"],
+        type: typeValues.map[json["type"]]!,
         uri: json["uri"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "external_urls": externalUrls.toJson(),
-        "followers": followers.toJson(),
-        "genres": List<dynamic>.from(genres.map((x) => x)),
-        "href": href,
-        "id": id,
-        "images": List<dynamic>.from(images.map((x) => x.toJson())),
-        "name": name,
-        "popularity": popularity,
-        "type": type,
-        "uri": uri,
-    };
 }
 
 class ExternalUrls {
+    String spotify;
+
     ExternalUrls({
         required this.spotify,
     });
 
-    String spotify;
-
     factory ExternalUrls.fromJson(Map<String, dynamic> json) => ExternalUrls(
         spotify: json["spotify"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "spotify": spotify,
-    };
 }
 
-class Followers {
-    Followers({
-        this.href,
-        required this.total,
+enum Type { ARTIST, TRACK }
+
+final typeValues = EnumValues({
+    "artist": Type.ARTIST,
+    "track": Type.TRACK
+});
+
+class Restrictions {
+    String reason;
+
+    Restrictions({
+        required this.reason,
     });
 
-    dynamic href;
-    int total;
-
-    factory Followers.fromJson(Map<String, dynamic> json) => Followers(
-        href: json["href"],
-        total: json["total"],
+    factory Restrictions.fromJson(Map<String, dynamic> json) => Restrictions(
+        reason: json["reason"],
     );
 
-    Map<String, dynamic> toJson() => {
-        "href": href,
-        "total": total,
-    };
 }
 
-class Images {
-    Images({
-        required this.height,
-        required this.url,
-        required this.width,
-    });
+class EnumValues<T> {
+    Map<String, T> map;
+    late Map<T, String> reverseMap;
 
-    int height;
-    String url;
-    int width;
+    EnumValues(this.map);
 
-    factory Images.fromJson(Map<String, dynamic> json) => Images(
-        height: json["height"],
-        url: json["url"],
-        width: json["width"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "height": height,
-        "url": url,
-        "width": width,
-    };
+    Map<T, String> get reverse {
+        reverseMap = map.map((k, v) => MapEntry(v, k));
+        return reverseMap;
+    }
 }

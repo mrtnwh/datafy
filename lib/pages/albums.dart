@@ -5,15 +5,13 @@ import '../models/tracks.dart';
 import '../services/tracks_service.dart';
 import '../widgets/drawer_menu.dart';
 
-
 class ScreenAlbums extends StatelessWidget {
-  ScreenAlbums(this.id, this.imageToPass,{super.key});
+  ScreenAlbums(this.id, this.imageToPass, {super.key});
   String id;
   String imageToPass;
   String? idAlbum;
   String? imageAlbum;
   String? nameAlbum;
-
 
   @override
   Widget build(BuildContext context) {
@@ -25,132 +23,402 @@ class ScreenAlbums extends StatelessWidget {
 
 class TextFuture extends StatelessWidget {
   late Future<TracksReleased> futureTracks;
-  TextFuture(this.id, this.imageToPass, this.idAlbum,this.imageAlbum, this.nameAlbum,  {super.key}) : futureTracks = Tracks().fetchLastReleases(id);
+  TextFuture(
+      this.id, this.imageToPass, this.idAlbum, this.imageAlbum, this.nameAlbum,
+      {super.key})
+      : futureTracks = Tracks().fetchLastReleases(id);
   String id;
   String imageToPass;
   String? idAlbum;
   String? imageAlbum;
   String? nameAlbum;
 
-  
-
-  
-
-
   final Future<Map<String, String>> _calculation =
       Future<Map<String, String>>.delayed(
     const Duration(seconds: 2),
     () => {'title': 'Data Loaded'},
   );
-  
+
   @override
-Widget build(BuildContext context) {
-    
+  Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-   return DefaultTextStyle(
+    return DefaultTextStyle(
       style: Theme.of(context).textTheme.headline2!,
       textAlign: TextAlign.center,
       child: FutureBuilder<TracksReleased>(
         future: futureTracks, // a previously-obtained Future<String> or null
-        builder: (BuildContext context, AsyncSnapshot<TracksReleased> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<TracksReleased> snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
-          var idAlbum = '${snapshot.data?.items[0].id}';
-          var imageAlbum = '${snapshot.data?.items[0].images[0].url}';
-          var nameAlbum = '${snapshot.data?.items[0].name}';
-
+            var idAlbum = '${snapshot.data?.items[0].id}';
+            var imageAlbum = '${snapshot.data?.items[0].images[0].url}';
+            var nameAlbum = '${snapshot.data?.items[0].name}';
+            int totalTracks =
+                int.parse('${snapshot.data?.items[0].totalTracks}'.toString());
             children = <Widget>[
-        Column(
-        children: [
-          Row(children: [
-            Container(height:size.height*0.24, width: size.width*1,
-          child: 
-          Image.network('${imageToPass}', fit: BoxFit.fitWidth, color: Colors.grey.withOpacity(0.87),colorBlendMode: BlendMode.modulate),
-          )],
-          ),
-          SizedBox(height: 20,),
-                    //Last 5 releases
-          Column(
-            children: [
-            Row(children: [SizedBox(width: 10,),Text('Last 5 albums                                                                                    '),],),
-            SizedBox(height: 10,),
-            Row(children: [
               Column(children: [
-              SizedBox(width: 190,),
-              Container(height: 150, width: 180, child: 
-              IconButton(onPressed: (){         Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                AlbumSongs(idAlbum, imageAlbum, nameAlbum)));}, icon: Image.network('${snapshot.data?.items[0].images[0].url}',alignment: Alignment.topLeft, )),
-             )
-             ],
-             ),
-             Column(children: [Container(width: 190,child: Center(child: (AutoSizeText('name: ${snapshot.data?.items[0].name}',maxLines: 3,))),),
-             Row(children: [Center(child: Text('release date: ${snapshot.data?.items[0].releaseDate.day}-${snapshot.data?.items[0].releaseDate.month}-${snapshot.data?.items[0].releaseDate.year}',style: TextStyle(fontSize: 15),))],),
-             Row(children: [Center(child: Text('total tracks: ${snapshot.data?.items[0].totalTracks}'))],),],)
-            ],
-            ),
-            SizedBox(height: 10,),
-             Row(children: [
-              Column(children: [
-                                SizedBox(width: 190,),
-              Container(height: 150, width: 180, child: 
-              IconButton(onPressed: (){print('album 2');}, icon: Image.network('${snapshot.data?.items[1].images[0].url}',alignment: Alignment.topLeft, )),
-             )
-             ],
-             ),
-             Column(children: [Container(width: 190,child: Center(child: (AutoSizeText('name: ${snapshot.data?.items[1].name}',maxLines: 2))),),
-             Row(children: [Center(child: Text('release date: ${snapshot.data?.items[1].releaseDate.day}-${snapshot.data?.items[1].releaseDate.month}-${snapshot.data?.items[1].releaseDate.year}',style: TextStyle(fontSize: 15),))],),
-             Row(children: [Center(child: Text('total tracks: ${snapshot.data?.items[1].totalTracks}'))],),],)
-            ],
-            ),
-            SizedBox(height: 10,),
-             Row(children: [
-              Column(children: [
-                                SizedBox(width: 190,),
-              Container(height: 150, width: 180, child: 
-              IconButton(onPressed: (){print('album 3');}, icon: Image.network('${snapshot.data?.items[2].images[0].url}',alignment: Alignment.topLeft, )),
-             )
-             ],
-             ),
-             Column(children: [Container(width: 190,child: Center(child: (AutoSizeText('name: ${snapshot.data?.items[2].name}',maxLines: 2,))),),
-             Row(children: [Center(child: Text('release date: ${snapshot.data?.items[2].releaseDate.day}-${snapshot.data?.items[2].releaseDate.month}-${snapshot.data?.items[2].releaseDate.year}',style: TextStyle(fontSize: 15),))],),
-             Row(children: [Center(child: Text('total tracks: ${snapshot.data?.items[2].totalTracks}'))],),],)
-            ],
-            ),
-                        SizedBox(height: 10,),
-             Row(children: [
-              Column(children: [
-                                SizedBox(width: 190,),
-              Container(height: 150, width: 180, child: 
-              IconButton(onPressed: (){print('album 4');}, icon: Image.network('${snapshot.data?.items[3].images[0].url}',alignment: Alignment.topLeft, )),
-             )
-             ],
-             ),
-             Column(children: [Container(width: 190,child: Center(child: (AutoSizeText('name: ${snapshot.data?.items[3].name}',maxLines: 2,))),),
-             Row(children: [Center(child: Text('release date: ${snapshot.data?.items[3].releaseDate.day}-${snapshot.data?.items[3].releaseDate.month}-${snapshot.data?.items[3].releaseDate.year}',style: TextStyle(fontSize: 15),))],),
-             Row(children: [Center(child: Text('total tracks: ${snapshot.data?.items[3].totalTracks}'))],),],)
-            ],
-            ),
-                        SizedBox(height: 10,),
-             Row(children: [
-              Column(children: [
-                                SizedBox(width: 190,),
-              Container(height: 150, width: 180, child: 
-              IconButton(onPressed: (){print('album 5');}, icon: Image.network('${snapshot.data?.items[4].images[0].url}',alignment: Alignment.topLeft, )),
-             )
-             ],
-             ),
-             Column(children: [Container(width: 190,child: Center(child: (AutoSizeText('name: ${snapshot.data?.items[4].name}',maxLines: 2,))),),
-             Row(children: [Center(child: Text('release date: ${snapshot.data?.items[4].releaseDate.day}-${snapshot.data?.items[4].releaseDate.month}-${snapshot.data?.items[4].releaseDate.year}',style: TextStyle(fontSize: 15),))],),
-             Row(children: [Center(child: Text('total tracks: ${snapshot.data?.items[4].totalTracks}'))],),],)
-            ],
-            ),
-            ]
-          )
-        ]
-        )
+                Row(
+                  children: [
+                    Container(
+                      height: size.height * 0.24,
+                      width: size.width * 1,
+                      child: Image.network('${imageToPass}',
+                          fit: BoxFit.fitWidth,
+                          color: Colors.grey.withOpacity(0.87),
+                          colorBlendMode: BlendMode.modulate),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                //Last 5 releases
+                Column(children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                          'Last 5 albums                                                                                    '),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(
+                            width: 190,
+                          ),
+                          Container(
+                            height: 150,
+                            width: 180,
+                            child: IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AlbumSongs(
+                                              idAlbum,
+                                              imageAlbum,
+                                              nameAlbum,
+                                              totalTracks)));
+                                },
+                                icon: Image.network(
+                                  '${snapshot.data?.items[0].images[0].url}',
+                                  alignment: Alignment.topLeft,
+                                )),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            width: 190,
+                            child: Center(
+                                child: (AutoSizeText(
+                              'name: ${snapshot.data?.items[0].name}',
+                              maxLines: 3,
+                            ))),
+                          ),
+                          Row(
+                            children: [
+                              Center(
+                                  child: Text(
+                                'release date: ${snapshot.data?.items[0].releaseDate.day}-${snapshot.data?.items[0].releaseDate.month}-${snapshot.data?.items[0].releaseDate.year}',
+                                style: TextStyle(fontSize: 15),
+                              ))
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Center(
+                                  child: Text(
+                                      'total tracks: ${snapshot.data?.items[0].totalTracks}'))
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(
+                            width: 190,
+                          ),
+                          Container(
+                            height: 150,
+                            width: 180,
+                            child: IconButton(
+                                onPressed: () {
+                                  nameAlbum = '${snapshot.data?.items[1].name}';
+                                  idAlbum = '${snapshot.data?.items[1].id}';
+                                  imageAlbum =
+                                      '${snapshot.data?.items[1].images[0].url}';
+                                  totalTracks = int.parse(
+                                      '${snapshot.data?.items[1].totalTracks}'
+                                          .toString());
+
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AlbumSongs(
+                                              idAlbum,
+                                              imageAlbum,
+                                              nameAlbum,
+                                              totalTracks as int)));
+                                },
+                                icon: Image.network(
+                                  '${snapshot.data?.items[1].images[0].url}',
+                                  alignment: Alignment.topLeft,
+                                )),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            width: 190,
+                            child: Center(
+                                child: (AutoSizeText(
+                                    'name: ${snapshot.data?.items[1].name}',
+                                    maxLines: 2))),
+                          ),
+                          Row(
+                            children: [
+                              Center(
+                                  child: Text(
+                                'release date: ${snapshot.data?.items[1].releaseDate.day}-${snapshot.data?.items[1].releaseDate.month}-${snapshot.data?.items[1].releaseDate.year}',
+                                style: TextStyle(fontSize: 15),
+                              ))
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Center(
+                                  child: Text(
+                                      'total tracks: ${snapshot.data?.items[1].totalTracks}'))
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(
+                            width: 190,
+                          ),
+                          Container(
+                            height: 150,
+                            width: 180,
+                            child: IconButton(
+                                onPressed: () {
+                                  nameAlbum = '${snapshot.data?.items[2].name}';
+                                  idAlbum = '${snapshot.data?.items[2].id}';
+                                  imageAlbum =
+                                      '${snapshot.data?.items[2].images[0].url}';
+                                  totalTracks = int.parse(
+                                      '${snapshot.data?.items[2].totalTracks}'
+                                          .toString());
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AlbumSongs(
+                                              idAlbum,
+                                              imageAlbum,
+                                              nameAlbum,
+                                              totalTracks as int)));
+                                },
+                                icon: Image.network(
+                                  '${snapshot.data?.items[2].images[0].url}',
+                                  alignment: Alignment.topLeft,
+                                )),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            width: 190,
+                            child: Center(
+                                child: (AutoSizeText(
+                              'name: ${snapshot.data?.items[2].name}',
+                              maxLines: 2,
+                            ))),
+                          ),
+                          Row(
+                            children: [
+                              Center(
+                                  child: Text(
+                                'release date: ${snapshot.data?.items[2].releaseDate.day}-${snapshot.data?.items[2].releaseDate.month}-${snapshot.data?.items[2].releaseDate.year}',
+                                style: TextStyle(fontSize: 15),
+                              ))
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Center(
+                                  child: Text(
+                                      'total tracks: ${snapshot.data?.items[2].totalTracks}'))
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(
+                            width: 190,
+                          ),
+                          Container(
+                            height: 150,
+                            width: 180,
+                            child: IconButton(
+                                onPressed: () {
+                                  nameAlbum = '${snapshot.data?.items[3].name}';
+                                  idAlbum = '${snapshot.data?.items[3].id}';
+                                  imageAlbum =
+                                      '${snapshot.data?.items[3].images[0].url}';
+                                  totalTracks = int.parse(
+                                      '${snapshot.data?.items[3].totalTracks}'
+                                          .toString());
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AlbumSongs(
+                                              idAlbum,
+                                              imageAlbum,
+                                              nameAlbum,
+                                              totalTracks as int)));
+                                },
+                                icon: Image.network(
+                                  '${snapshot.data?.items[3].images[0].url}',
+                                  alignment: Alignment.topLeft,
+                                )),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            width: 190,
+                            child: Center(
+                                child: (AutoSizeText(
+                              'name: ${snapshot.data?.items[3].name}',
+                              maxLines: 2,
+                            ))),
+                          ),
+                          Row(
+                            children: [
+                              Center(
+                                  child: Text(
+                                'release date: ${snapshot.data?.items[3].releaseDate.day}-${snapshot.data?.items[3].releaseDate.month}-${snapshot.data?.items[3].releaseDate.year}',
+                                style: TextStyle(fontSize: 15),
+                              ))
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Center(
+                                  child: Text(
+                                      'total tracks: ${snapshot.data?.items[3].totalTracks}'))
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(
+                            width: 190,
+                          ),
+                          Container(
+                            height: 150,
+                            width: 180,
+                            child: IconButton(
+                                onPressed: () {
+                                  nameAlbum = '${snapshot.data?.items[4].name}';
+                                  idAlbum = '${snapshot.data?.items[4].id}';
+                                  imageAlbum =
+                                      '${snapshot.data?.items[4].images[0].url}';
+                                  totalTracks = int.parse(
+                                      '${snapshot.data?.items[4].totalTracks}'
+                                          .toString());
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AlbumSongs(
+                                              idAlbum,
+                                              imageAlbum,
+                                              nameAlbum,
+                                              totalTracks as int)));
+                                },
+                                icon: Image.network(
+                                  '${snapshot.data?.items[4].images[0].url}',
+                                  alignment: Alignment.topLeft,
+                                )),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            width: 190,
+                            child: Center(
+                                child: (AutoSizeText(
+                              'name: ${snapshot.data?.items[4].name}',
+                              maxLines: 2,
+                            ))),
+                          ),
+                          Row(
+                            children: [
+                              Center(
+                                  child: Text(
+                                'release date: ${snapshot.data?.items[4].releaseDate.day}-${snapshot.data?.items[4].releaseDate.month}-${snapshot.data?.items[4].releaseDate.year}',
+                                style: TextStyle(fontSize: 15),
+                              ))
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Center(
+                                  child: Text(
+                                      'total tracks: ${snapshot.data?.items[4].totalTracks}'))
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ])
+              ])
             ];
           } else if (snapshot.hasError) {
             children = <Widget>[
@@ -177,19 +445,23 @@ Widget build(BuildContext context) {
               ),
             ];
           }
-          return 
-          Scaffold(
-            appBar: AppBar(title: Text('${snapshot.data?.items[0].artists[0].name}',style:(TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25))),),
-          body:
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: children,
-            ),
-          )
-          );
+          return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                    'Last 5 albums from ${snapshot.data?.items[0].artists[0].name}',
+                    style: (TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 25))),
+              ),
+              body: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: children,
+                ),
+              ));
         },
       ),
     );
   }
-  }
+}

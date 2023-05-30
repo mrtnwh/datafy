@@ -1,26 +1,40 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:datafy/pages/albums.dart';
-
+import 'package:datafy/pages/related_artist.dart';
+import 'package:datafy/pages/top_tracks.dart';
 import 'package:flutter/material.dart';
-import '../models/artist.dart';
-import '../services/artists_service.dart';
+import '../models/relatedArtist.dart';
+import '../services/artist_service.dart';
 import '../widgets/drawer_menu.dart';
 
 class FutureBuilderPage extends StatelessWidget {
-  FutureBuilderPage(this.nameArtist, {super.key});
+  FutureBuilderPage(this.idArtist, this.nameArtist, {super.key});
+  String idArtist;
   String nameArtist;
 
   @override
   Widget build(BuildContext context) {
-    print('asd $nameArtist');
-    return Scaffold(drawer: const DrawerMenu(), body: TextFuture(nameArtist));
+    return Scaffold(
+        drawer: const DrawerMenu(),
+        body: Stack(
+          children: [
+            TextFutureArtist(idArtist, nameArtist),
+          ],
+        ));
   }
 }
 
-class TextFuture extends StatelessWidget {
-  late Future<SearchArtist> futureArtist;
-  TextFuture(this.nameArtist, {super.key})
-      : futureArtist = SearchArtists().fetchSearchArtist(nameArtist);
+const LinearGradient mainButton = LinearGradient(colors: [
+  Color.fromRGBO(236, 60, 3, 1),
+  Color.fromRGBO(234, 60, 3, 1),
+  Color.fromRGBO(216, 78, 16, 1),
+], begin: FractionalOffset.topCenter, end: FractionalOffset.bottomCenter);
+
+class TextFutureArtist extends StatelessWidget {
+  late Future<Artist> futureArtist;
+  TextFutureArtist(this.idArtist, this.nameArtist, {super.key})
+      : futureArtist = Artists().fetchArtist(idArtist);
+  String idArtist;
   String nameArtist;
 
   final Future<Map<String, String>> _calculation =
@@ -33,24 +47,17 @@ class TextFuture extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var index = 0;
+
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.headline2!,
       textAlign: TextAlign.center,
-      child: FutureBuilder<SearchArtist>(
+      child: FutureBuilder<Artist>(
         future: futureArtist, // a previously-obtained Future<String> or null
-        builder: (BuildContext context, AsyncSnapshot<SearchArtist> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<Artist> snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
-            var idToPass = '${snapshot.data?.artists.items[0].id}';
-            var imageToPass =
-                '${snapshot.data?.artists.items[0].images[0].url}';
-            int array = '${snapshot.data?.artists.items[0].genres}'.length;
-            var max = '$array'.length;
-            // for (int i = 0; i <= max; i++) {
-            //   var arrayStr = '${snapshot.data?.artists.items[0].genres[i]}';
-            //   print('${arrayStr}');
-            // }
-
+            var idToPass = '${snapshot.data?.id}';
+            var imageToPass = '${snapshot.data?.images[0].url}';
             children = <Widget>[
               Column(children: [
                 Row(
@@ -58,217 +65,125 @@ class TextFuture extends StatelessWidget {
                     Container(
                       height: size.height * 0.24,
                       width: size.width * 1,
-                      child: Image.network(
-                          '${snapshot.data?.artists.items[0].images[0].url}',
+                      child: Image.network('${snapshot.data?.images[0].url}',
                           fit: BoxFit.fitWidth,
                           color: Colors.grey.withOpacity(0.87),
                           colorBlendMode: BlendMode.modulate),
                     )
                   ],
                 ),
-                Row(
-                  children: [
-                    SizedBox(
-                      height: 50,
-                      width: 5,
-                    ),
-                    RichText(
-                        text: TextSpan(
-                            text:
-                                'followers: ${snapshot.data?.artists.items[0].followers.total}',
-                            style: TextStyle(color: Colors.black),
-                            children: [
-                          TextSpan(text: '\n'),
-                          TextSpan(
-                              text:
-                                  'genres: ${snapshot.data?.artists.items[0].genres.length}'),
-                          TextSpan(text: '\n')
-                        ]))
-                  ],
-                ),
-                // Similar Artists
                 Column(
                   children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                            'Similar Artists                                                                                     ')
-                      ],
-                    )
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        child: Center(
+                            child: (AutoSizeText(
+                          'followers: ${snapshot.data?.followers.total}',
+                          minFontSize: 16,
+                        ))),
+                      ),
+                    ]),
+                    Row(children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        width: 300,
+                        child: (AutoSizeText(
+                          'genres: ${snapshot.data?.genres.join(", ")}',
+                          maxLines: 2,
+                          minFontSize: 16,
+                        )),
+                      ),
+                    ]),
                   ],
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Row(children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: 210,
-                      ),
-                      Container(
-                        height: 180,
-                        width: 200,
-                        child: IconButton(
-                          onPressed: () {
-                            print('toque');
-                          },
-                          icon: Image.network(
-                            '${snapshot.data?.artists.items[2].images[0].url}',
-                            alignment: Alignment.topLeft,
-                          ),
-                          iconSize: 100,
-                        ),
-                      )
-                    ],
+                SizedBox(
+                  width: 400,
+                  height: 60,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ScreenAlbums(idArtist, imageToPass)));
+                    },
+                    child: Text(
+                      'Tap this button to see the last 5 albums from ${nameArtist}',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.green,
+                      disabledForegroundColor: Colors.grey.withOpacity(0.38),
+                      disabledBackgroundColor: Colors.grey.withOpacity(0.12),
+                    ),
                   ),
-                  Column(
-                    children: [
-                      Container(
-                          width: 170,
-                          child: Center(
-                              child: AutoSizeText(
-                                  'name: ${snapshot.data?.artists.items[2].name}',
-                                  maxLines: 2))),
-                      Row(
-                        children: [
-                          Center(
-                              child: AutoSizeText(
-                                  'followers: ${snapshot.data?.artists.items[2].followers.total}'))
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          AutoSizeText(
-                              'genres: ${snapshot.data?.artists.items[2].genres.length}')
-                        ],
-                      ),
-                    ],
-                  ),
-                ]),
+                ),
                 SizedBox(
                   height: 10,
                 ),
-                Row(children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: 210,
-                      ),
-                      Container(
-                        height: 180,
-                        width: 200,
-                        child: IconButton(
-                            onPressed: () {
-                              print('array: $array');
-                            },
-                            icon: Image.network(
-                              '${snapshot.data?.artists.items[3].images[0].url}',
-                              alignment: Alignment.topLeft,
-                            ),
-                            iconSize: 100),
-                      )
-                    ],
+                SizedBox(
+                  width: 400,
+                  height: 60,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  FutureBuilderPageRelatedArtist(
+                                      idArtist, nameArtist, imageToPass)));
+                    },
+                    child: Text(
+                      'Tap this button to see related artist from ${nameArtist}',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.green,
+                      disabledForegroundColor: Colors.grey.withOpacity(0.38),
+                      disabledBackgroundColor: Colors.grey.withOpacity(0.12),
+                    ),
                   ),
-                  Column(
-                    children: [
-                      Container(
-                          width: 170,
-                          child: Center(
-                              child: AutoSizeText(
-                                  'name: ${snapshot.data?.artists.items[3].name}',
-                                  maxLines: 2))),
-                      Row(
-                        children: [
-                          Center(
-                              child: AutoSizeText(
-                                  'followers: ${snapshot.data?.artists.items[3].followers.total}'))
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          AutoSizeText(
-                              'genres: ${snapshot.data?.artists.items[3].genres.length}')
-                        ],
-                      ),
-                    ],
-                  ),
-                ]),
+                ),
                 SizedBox(
                   height: 10,
                 ),
-                Row(children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: 210,
-                      ),
-                      Container(
-                          height: 180,
-                          width: 200,
-                          child: IconButton(
-                            onPressed: () {
-                              print('toque');
-                            },
-                            icon: Image.network(
-                              '${snapshot.data?.artists.items[4].images[0].url}',
-                              alignment: Alignment.topLeft,
-                            ),
-                            iconSize: 100,
-                          ))
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                          width: 170,
-                          child: Center(
-                              child: AutoSizeText(
-                                  'name: ${snapshot.data?.artists.items[4].name}',
-                                  maxLines: 2))),
-                      Center(
-                          child: AutoSizeText(
-                        'followers: ${snapshot.data?.artists.items[4].followers.total}',
-                      )),
-                      Center(
-                          child: AutoSizeText(
-                              'genres: ${snapshot.data?.artists.items[4].genres.length}'))
-                    ],
-                  ),
-                ])
-              ]),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: 400,
-                height: 60,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ScreenAlbums(idToPass, imageToPass)));
-                  },
-                  child: Text(
-                    'Tap this button to see the last 5 albums from ${snapshot.data?.artists.items[0].name}',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.blue,
-                    disabledForegroundColor: Colors.grey.withOpacity(0.38),
-                    disabledBackgroundColor: Colors.grey.withOpacity(0.12),
+                SizedBox(
+                  width: 400,
+                  height: 60,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FutureBuilderPageTopTracks(
+                                  idArtist, nameArtist, imageToPass)));
+                    },
+                    child: Text(
+                      'Tap this button to see the top tracks from ${nameArtist}',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.green,
+                      disabledForegroundColor: Colors.grey.withOpacity(0.38),
+                      disabledBackgroundColor: Colors.grey.withOpacity(0.12),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              )
+              ])
             ];
           } else if (snapshot.hasError) {
             children = <Widget>[
@@ -297,10 +212,10 @@ class TextFuture extends StatelessWidget {
           }
           return Scaffold(
               appBar: AppBar(
-                title: Text('${snapshot.data?.artists.items[0].name}',
+                title: Text('${nameArtist}',
                     style: (TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 25))),
               ),
               body: SingleChildScrollView(
