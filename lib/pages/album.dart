@@ -100,15 +100,18 @@ class TextFuture extends StatelessWidget {
                 ];
               } else {
                 children = const <Widget>[
-                  SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: CircularProgressIndicator(),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: Text('Awaiting result...'),
-                  ),
+                  Center(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Text('Awaiting result...'),
+                        ),
+                        SizedBox(height: 15,),
+                        CircularProgressIndicator()
+                      ],
+                    ),
+                  )
                 ];
               }
               return Scaffold(

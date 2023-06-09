@@ -93,6 +93,16 @@ class TextFutureArtist extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
+                      if ('${snapshot.data?.genres}' == '[]')
+                      Container(
+                        width: 300,
+                        child: (AutoSizeText(
+                          'genres: no se han encontrado generos :(.',
+                          maxLines: 2,
+                          minFontSize: 16,
+                        )),
+                      )
+                      else
                       Container(
                         width: 300,
                         child: (AutoSizeText(
@@ -199,15 +209,18 @@ class TextFutureArtist extends StatelessWidget {
             ];
           } else {
             children = const <Widget>[
-              SizedBox(
-                width: 60,
-                height: 60,
-                child: CircularProgressIndicator(),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text('Awaiting result...'),
-              ),
+              Center(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Text('Awaiting result...'),
+                        ),
+                        SizedBox(height: 15,),
+                        CircularProgressIndicator()
+                      ],
+                    ),
+                  )
             ];
           }
           return Scaffold(

@@ -2,6 +2,9 @@ import 'package:datafy/auth/components/CustomTextField.dart';
 import 'package:datafy/pages/pages.dart';
 import 'package:flutter/material.dart';
 
+import '../constants/constants.dart';
+import '../services/token_bearer.dart';
+
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
 
@@ -130,16 +133,13 @@ class _LogInState extends State<LogIn> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Iniciando Sesion')),
                             );
-                            Future.delayed(const Duration(seconds: 2), () {
-                              Navigator.push(
+                            Future.delayed(const Duration(seconds: 1), () {Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => ListArtists()));
-                            });
+                                      builder: (_) => ListArtists()));});
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          //TODO: SEND DATA
                           backgroundColor: Colors.greenAccent[700],
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
