@@ -1,16 +1,13 @@
-# datafy
+Para correr el codigo es necesario un token, para eso:
 
-A new Flutter project.
+```
+Hacer una consulta POST en https://accounts.spotify.com/api/token en headers el Content-Type 
+tiene que ser: application/x-www-form-urlencoded y el body grant_type: client_credentials, 
+client_id: 36f84c4388d241afa8cb4861cef58165, client_secret: 129274c5773d40088c564104aab1d9e7
+```
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+Crear un archivo llamado "constants.dart", en el mismo crear un archivo 
+final String TOKEN= ''; y dentro de la variable String hay que poner 
+lo que devuelva la consulta "access_token"
+```
