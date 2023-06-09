@@ -5,6 +5,7 @@ import '../services/top_tracks_service.dart';
 import '../widgets/drawer_menu.dart';
 import 'album.dart';
 
+// ignore: must_be_immutable
 class FutureBuilderPageTopTracks extends StatelessWidget {
   FutureBuilderPageTopTracks(this.idArtist, this.nameArtist, this.imageArtist,
       {super.key});
@@ -20,6 +21,7 @@ class FutureBuilderPageTopTracks extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class TextFuture extends StatelessWidget {
   late Future<TopTracks> futureTopTracks;
   TextFuture(this.idArtist, this.nameArtist, this.imageArtist, {super.key})
@@ -28,11 +30,6 @@ class TextFuture extends StatelessWidget {
   String nameArtist;
   String imageArtist;
 
-  final Future<Map<String, String>> _calculation =
-      Future<Map<String, String>>.delayed(
-    const Duration(seconds: 5),
-    () => {'title': 'Data Loaded'},
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +45,6 @@ class TextFuture extends StatelessWidget {
             var idAlbum = '${snapshot.data?.tracks[0].album.id}';
             var imageAlbum = '${snapshot.data?.tracks[0].album.images[0].url}';
             var nameAlbum = '${snapshot.data?.tracks[0].album.name}';
-            var nameSong = '${snapshot.data?.tracks[0].name}';
             int totalTracks = int.parse(
                 '${snapshot.data?.tracks[0].album.totalTracks}'.toString());
             children = <Widget>[
@@ -94,8 +90,6 @@ class TextFuture extends StatelessWidget {
                                               '${snapshot.data?.tracks[x].album.id}';
                                           imageAlbum =
                                               '${snapshot.data?.tracks[x].album.images[0].url}';
-                                          nameSong =
-                                              '${snapshot.data?.tracks[x].name}';
                                           totalTracks = int.parse(
                                               '${snapshot.data?.tracks[x].album.totalTracks}'
                                                   .toString());

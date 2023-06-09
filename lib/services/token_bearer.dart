@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../models/token.dart';
 
 
   Future<String> enviarSolicitudPost() async {

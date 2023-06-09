@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../services/album_service.dart';
 
+// ignore: must_be_immutable
 class AlbumSongs extends StatelessWidget {
   AlbumSongs(this.idAlbum, this.imageAlbum, this.nameAlbum, this.totalTracks,
       {super.key});
@@ -19,6 +20,7 @@ class AlbumSongs extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class TextFuture extends StatelessWidget {
   late Future<TracksAlbum> futureTracksAlbum;
   TextFuture(this.idAlbum, this.imageAlbum, this.nameAlbum, this.totalTracks,
@@ -27,11 +29,6 @@ class TextFuture extends StatelessWidget {
   String idAlbum, imageAlbum, nameAlbum;
   int totalTracks;
 
-  final Future<Map<String, String>> _calculation =
-      Future<Map<String, String>>.delayed(
-    const Duration(seconds: 2),
-    () => {'title': 'Data Loaded'},
-  );
 
   @override
   Widget build(BuildContext context) {

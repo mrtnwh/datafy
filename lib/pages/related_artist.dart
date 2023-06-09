@@ -5,6 +5,7 @@ import '../services/related_artists_service.dart';
 import '../widgets/drawer_menu.dart';
 import 'artist.dart';
 
+// ignore: must_be_immutable
 class FutureBuilderPageRelatedArtist extends StatelessWidget {
   FutureBuilderPageRelatedArtist(
       this.idArtist, this.nameArtist, this.imageArtist,
@@ -21,6 +22,7 @@ class FutureBuilderPageRelatedArtist extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class TextFuture extends StatelessWidget {
   late Future<RelatedArtist> futureRelatedArtists;
   TextFuture(this.idArtist, this.nameArtist, this.imageArtist, {super.key})
@@ -29,16 +31,10 @@ class TextFuture extends StatelessWidget {
   String nameArtist;
   String imageArtist;
 
-  final Future<Map<String, String>> _calculation =
-      Future<Map<String, String>>.delayed(
-    const Duration(seconds: 5),
-    () => {'title': 'Data Loaded'},
-  );
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var index = 0;
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.headline2!,
       textAlign: TextAlign.center,

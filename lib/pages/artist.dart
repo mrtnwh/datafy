@@ -7,6 +7,7 @@ import '../models/relatedArtist.dart';
 import '../services/artist_service.dart';
 import '../widgets/drawer_menu.dart';
 
+// ignore: must_be_immutable
 class FutureBuilderPage extends StatelessWidget {
   FutureBuilderPage(this.idArtist, this.nameArtist, {super.key});
   String idArtist;
@@ -24,12 +25,7 @@ class FutureBuilderPage extends StatelessWidget {
   }
 }
 
-const LinearGradient mainButton = LinearGradient(colors: [
-  Color.fromRGBO(236, 60, 3, 1),
-  Color.fromRGBO(234, 60, 3, 1),
-  Color.fromRGBO(216, 78, 16, 1),
-], begin: FractionalOffset.topCenter, end: FractionalOffset.bottomCenter);
-
+// ignore: must_be_immutable
 class TextFutureArtist extends StatelessWidget {
   late Future<Artist> futureArtist;
   TextFutureArtist(this.idArtist, this.nameArtist, {super.key})
@@ -37,16 +33,10 @@ class TextFutureArtist extends StatelessWidget {
   String idArtist;
   String nameArtist;
 
-  final Future<Map<String, String>> _calculation =
-      Future<Map<String, String>>.delayed(
-    const Duration(seconds: 2),
-    () => {'title': 'Data Loaded'},
-  );
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var index = 0;
 
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.headline2!,
@@ -56,7 +46,6 @@ class TextFutureArtist extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<Artist> snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
-            var idToPass = '${snapshot.data?.id}';
             var imageToPass = '${snapshot.data?.images[0].url}';
             children = <Widget>[
               Column(children: [

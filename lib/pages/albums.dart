@@ -5,6 +5,7 @@ import '../models/tracks.dart';
 import '../services/tracks_service.dart';
 import '../widgets/drawer_menu.dart';
 
+// ignore: must_be_immutable
 class ScreenAlbums extends StatelessWidget {
   ScreenAlbums(this.id, this.imageToPass, {super.key});
   String id;
@@ -21,6 +22,7 @@ class ScreenAlbums extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class TextFuture extends StatelessWidget {
   late Future<TracksReleased> futureTracks;
   TextFuture(
@@ -33,11 +35,6 @@ class TextFuture extends StatelessWidget {
   String? imageAlbum;
   String? nameAlbum;
 
-  final Future<Map<String, String>> _calculation =
-      Future<Map<String, String>>.delayed(
-    const Duration(seconds: 2),
-    () => {'title': 'Data Loaded'},
-  );
 
   @override
   Widget build(BuildContext context) {
