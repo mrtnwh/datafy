@@ -10,3 +10,5 @@ Future<String> obtenerToken() async {
   return TOKEN;
 }
 ```
+
+El proyecto fue probado en Start Pixel 3 XL API 33 y Start Pixel 6 Pro API 33 y funcionaron correctamente.
